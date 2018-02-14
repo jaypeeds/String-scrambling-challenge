@@ -76,7 +76,7 @@ func transform<T>(phrase: [T], which: (T) -> Bool, amplitude: Int? ) -> [T] {
 	}
 }
 
-let alphabet = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ".characters)
+let alphabet = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 let every2nd = alphabet.select(accept: {0 == (($0 + 1) % 2)})
 let every3rd = alphabet.select(accept: {0 == (($0 + 1) % 3)})
 let every4th = alphabet.select(accept: {0 == (($0 + 1) % 4)})
@@ -84,7 +84,7 @@ let every4th = alphabet.select(accept: {0 == (($0 + 1) % 4)})
 func cipher(clearText: String) -> String {
 	let phrase = transform(phrase:
 			transform(phrase:
-				transform(phrase:Array(clearText.characters), 
+				transform(phrase:Array(clearText), 
 						which: {every2nd.contains($0)}, amplitude: nil), 
 				which: {every3rd.contains($0)}, amplitude: -1), 
 			which: {every4th.contains($0)}, amplitude: 1)
@@ -93,7 +93,7 @@ func cipher(clearText: String) -> String {
 	return String(phrase.updateWhereMask(mask: maskSpaces.shift(by: nil), values: [" "]).updateWhereMask(mask: maskNotSpaces.shift(by: nil), values: phrase.select(only: maskNotSpaces)))
 }
 func decipher(code: String) -> String {
-	let ciphered = Array(code.characters)
+	let ciphered = Array(code)
 	let spacesMask = ciphered.selectMaskWhereValue(accept: {$0 == " "})
 	let notSpaceMask = ciphered.selectMaskWhereValue(accept: {$0 != " "})
 	return String(
